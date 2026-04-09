@@ -4,87 +4,102 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Electricity Tracker</title>
-
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23007AFF'/%3E%3Cpolygon points='60,10 30,55 52,55 40,90 70,45 48,45' fill='white'/%3E%3C/svg%3E">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23007AFF'/%3E%3Cpolygon points='60,10 30,55 52,55 40,90 70,45 48,45' fill='white'/%3E%3C/svg%3E">
-
+    <link rel="icon" type="image/png" href="data:image/png;base64,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">
+    <link rel="apple-touch-icon" href="data:image/png;base64,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">
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 15px 0; margin: 0; }
-        .container { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 92%; max-width: 420px; box-sizing: border-box; }
-        h2 { text-align: center; color: #1c1e21; font-size: 20px; margin: 0 0 20px 0; }
+        * { box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f0f2f5; display: flex; justify-content: center; padding: 15px 0; margin: 0; }
+        .container { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 92%; max-width: 420px; }
+        h2 { text-align: center; color: #1c1e21; font-size: 20px; margin: 0 0 16px 0; }
 
-        .est-banner { background: #e7f3ff; border: 1px solid #cce5ff; border-radius: 15px; padding: 16px; text-align: center; margin-bottom: 20px; }
-        .est-banner .est-label { font-size: 11px; font-weight: 700; text-transform: uppercase; color: #606770; margin-bottom: 4px; }
-        .est-banner .est-val { font-size: 30px; font-weight: 800; color: #007AFF; }
-        .est-banner .est-date { font-size: 12px; color: #606770; margin-top: 4px; }
+        .est-banner { background: #e7f3ff; border: 1px solid #cce5ff; border-radius: 15px; padding: 14px 16px; margin-bottom: 14px; }
+        .est-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #606770; margin-bottom: 4px; }
+        .est-main { display: flex; align-items: baseline; gap: 10px; margin-bottom: 2px; }
+        .est-val { font-size: 30px; font-weight: 800; color: #007AFF; }
+        .est-kwh { font-size: 13px; color: #606770; }
+        .est-date { font-size: 12px; color: #8e8e93; margin-bottom: 10px; }
+        .rate-row { display: flex; align-items: center; justify-content: space-between; background: white; border-radius: 8px; padding: 8px 10px; border: 1px solid #cce5ff; }
+        .rate-label { font-size: 10px; font-weight: 700; text-transform: uppercase; color: #606770; margin-bottom: 1px; }
+        .rate-val { font-size: 15px; font-weight: 800; color: #007AFF; }
+        .rate-right { display: flex; align-items: center; gap: 5px; }
+        .rate-right span { font-size: 11px; color: #606770; }
+        .rate-right select { width: auto; height: 30px; padding: 0 6px; font-size: 12px; margin: 0; border: 1px solid #dddfe2; border-radius: 6px; background: #f8f9fa; -webkit-appearance: none; }
 
-        .section-box { background: #f8f9fa; padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #e9ecef; box-sizing: border-box; }
+        .section-box { background: #f8f9fa; padding: 15px; border-radius: 15px; margin-top: 10px; border: 1px solid #e9ecef; }
+        .section-box.green { background: #f0fff4; border-color: #dcfce7; }
         label { display: block; margin-bottom: 4px; color: #606770; font-size: 10px; font-weight: 700; text-transform: uppercase; }
-
-        input, select {
-            width: 100%;
-            height: 44px;
-            padding: 10px;
-            border: 1px solid #dddfe2;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-size: 15px;
-            margin-bottom: 10px;
-            font-family: inherit;
-            background: #fff;
-            -webkit-appearance: none;
-        }
-
-        .flex-row { display: flex; gap: 8px; width: 100%; margin-bottom: 5px; }
+        input, select { width: 100%; height: 44px; padding: 10px; border: 1px solid #dddfe2; border-radius: 8px; font-size: 15px; margin-bottom: 10px; font-family: inherit; background: #fff; -webkit-appearance: none; }
+        .flex-row { display: flex; gap: 8px; }
         .flex-col { flex: 1; min-width: 0; }
 
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: opacity 0.2s; box-sizing: border-box; }
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; }
         .btn-blue { background: #007AFF; color: white; }
         .btn-green { background: #34c759; color: white; margin-top: 5px; }
-        .btn-outline { background: none; border: 1px solid #007AFF; color: #007AFF; margin-top: 10px; padding: 10px; font-size: 14px; }
-        .btn-statement { border-color: #34c759; color: #166534; }
+        .btn-outline { background: none; border: 1px solid #007AFF; color: #007AFF; margin-top: 8px; padding: 10px; font-size: 14px; }
+        .btn-outline.green { border-color: #34c759; color: #166534; }
 
-        .collapse-content { display: none; margin-top: 10px; }
+        .collapse-content { display: none; }
 
-        .bill-year-group { margin-top: 15px; }
-        .year-header { font-size: 16px; font-weight: 800; color: #1c1e21; border-bottom: 2px solid #007AFF; padding-bottom: 4px; margin-bottom: 10px; }
-        .bill-row { display: flex; flex-direction: column; padding: 10px; border-bottom: 1px solid #f0f2f5; font-size: 14px; background: #fff; border-radius: 8px; margin-bottom: 8px; border: 1px solid #eee; }
-        .bill-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-        .bill-dates { font-size: 11px; color: #8e8e93; font-weight: 600; }
+        .live-rate-box { background: #fffbe6; border: 1px solid #ffe58f; border-radius: 8px; padding: 8px 12px; margin-bottom: 10px; text-align: center; font-size: 13px; color: #92400e; font-weight: 700; display: none; }
 
-        .history-item { background: #fff; border: 1px solid #eee; padding: 10px; border-radius: 8px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
-        .del-btn { color: #ff3b30; cursor: pointer; font-weight: bold; padding: 5px 10px; background: #fff1f0; border-radius: 6px; }
+        .bill-row { background: #fff; border: 1px solid #eee; border-radius: 10px; padding: 10px 12px; margin-bottom: 8px; }
+        .bill-row-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 6px; margin-bottom: 4px; }
+        .bill-dates-full { font-size: 12px; font-weight: 700; color: #1c1e21; flex: 1; }
+        .bill-meta { font-size: 12px; color: #606770; margin-top: 2px; line-height: 1.6; }
+        .del-btn { color: #ff3b30; cursor: pointer; font-weight: bold; padding: 4px 9px; background: #fff1f0; border-radius: 6px; font-size: 13px; flex-shrink: 0; }
 
-        .summary-grid { display: flex; gap: 10px; margin-bottom: 5px; }
-        .res-box { flex: 1; min-width: 0; padding: 10px; background: #e7f3ff; border-radius: 10px; text-align: center; border: 1px solid #cce5ff; }
-        .res-box input { margin: 0; text-align: center; height: 38px; font-size: 13px; }
+        .history-item { background: #fff; border: 1px solid #eee; padding: 10px 12px; border-radius: 8px; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
+        .hist-info { flex: 1; min-width: 0; }
+        .hist-date { font-size: 13px; font-weight: 600; color: #1c1e21; }
+        .hist-sub { font-size: 11px; color: #8e8e93; margin-top: 1px; }
+        .hist-price { font-size: 15px; font-weight: 800; color: #007AFF; white-space: nowrap; }
+        .empty-msg { color: #8e8e93; font-size: 13px; text-align: center; padding: 10px 0; }
     </style>
 </head>
 <body>
-
 <div class="container">
     <h2>Electricity Estimator &amp; Tracker</h2>
 
+    <!-- BANNER -->
     <div class="est-banner">
         <div class="est-label">Estimate for Current Billing Cycle</div>
-        <div class="est-val" id="estVal">$0.00</div>
+        <div class="est-main">
+            <div class="est-val" id="estVal">—</div>
+            <div class="est-kwh" id="estKwh"></div>
+        </div>
         <div class="est-date" id="estDate"></div>
+        <div class="rate-row">
+            <div>
+                <div class="rate-label">Cost per kWh</div>
+                <div class="rate-val" id="rateDisplay">—</div>
+            </div>
+            <div class="rate-right">
+                <span>Last</span>
+                <select id="rateMonths" onchange="saveRateMonths(); renderAll();">
+                    <option value="1">1 mo</option>
+                    <option value="3" selected>3 mo</option>
+                    <option value="6">6 mo</option>
+                    <option value="12">12 mo</option>
+                    <option value="all">All</option>
+                </select>
+            </div>
+        </div>
     </div>
 
+    <!-- ADD NEW ENTRY -->
     <button class="btn btn-outline" onclick="toggleSection('entryInput')">+ Add New Entry ▼</button>
     <div id="entryInput" class="collapse-content">
-        <div class="section-box" style="margin-top:10px;">
-            <div class="summary-grid">
-                <div class="res-box">
+        <div class="section-box">
+            <div class="flex-row">
+                <div class="flex-col">
                     <label>Prev Billing Reading</label>
                     <input type="number" id="lastRead">
                 </div>
-                <div class="res-box">
+                <div class="flex-col">
                     <label>Last Statement Date</label>
                     <input type="date" id="lastDate">
                 </div>
             </div>
-
             <div class="flex-row">
                 <div class="flex-col">
                     <label>Current Meter Reading</label>
@@ -95,108 +110,127 @@
                     <input type="date" id="currDate">
                 </div>
             </div>
-
             <button class="btn btn-blue" onclick="calculate()">Save Estimate</button>
         </div>
     </div>
 
-    <button class="btn btn-outline btn-statement" onclick="toggleSection('statementInput')" style="margin-top:8px;">+ Add Monthly Statement ▼</button>
+    <!-- ADD MONTHLY STATEMENT -->
+    <button class="btn btn-outline green" onclick="toggleSection('statementInput')">+ Add Monthly Statement ▼</button>
     <div id="statementInput" class="collapse-content">
-        <div class="section-box" style="background:#f0fff4; border-color:#dcfce7; margin-top:10px;">
-
+        <div class="section-box green">
             <div class="flex-row">
                 <div class="flex-col">
                     <label>From</label>
-                    <input type="date" id="billStartDate">
+                    <input type="date" id="billStartDate" oninput="updateLiveRate()">
                 </div>
                 <div class="flex-col">
                     <label>To</label>
-                    <input type="date" id="billEndDate">
+                    <input type="date" id="billEndDate" oninput="updateLiveRate()">
                 </div>
             </div>
-
             <div class="flex-row">
                 <div class="flex-col">
                     <label>Billing Amount ($)</label>
-                    <input type="number" id="billCost" placeholder="0.00">
+                    <input type="number" id="billCost" placeholder="0.00" oninput="updateLiveRate()">
                 </div>
                 <div class="flex-col">
                     <label>Usage (kWh)</label>
-                    <input type="number" id="billUsage" placeholder="kWh">
+                    <input type="number" id="billUsage" placeholder="kWh" oninput="updateLiveRate()">
                 </div>
             </div>
-
             <label>End Reading</label>
-            <input type="number" id="billEndReading" placeholder="Reading on end date">
-
+            <input type="number" id="billEndReading" placeholder="Meter reading on end date">
+            <div class="live-rate-box" id="liveRate"></div>
             <button class="btn btn-green" onclick="saveActualBill()">Save Statement</button>
         </div>
     </div>
 
-    <div id="billDisplay"></div>
+    <!-- VIEW MONTHLY STATEMENTS -->
+    <button class="btn btn-outline green" onclick="toggleSection('billsCollapse')" style="margin-top:8px;">View Monthly Statements ▼</button>
+    <div id="billsCollapse" class="collapse-content" style="margin-top:10px;">
+        <div id="billDisplay"></div>
+    </div>
 
+    <!-- VIEW ENTRY HISTORY -->
     <button class="btn btn-outline" onclick="toggleSection('historyCollapse')" style="margin-top:8px;">View Entry History ▼</button>
-    <div id="historyCollapse" class="collapse-content">
+    <div id="historyCollapse" class="collapse-content" style="margin-top:10px;">
         <div id="historyList"></div>
-        <button onclick="clearAll()" style="color:red; font-size:12px; border:none; background:none; cursor:pointer; width:100%; margin-top:15px; padding:10px;">Clear All App Data</button>
+        <button onclick="clearAll()" style="color:red;font-size:12px;border:none;background:none;cursor:pointer;width:100%;margin-top:15px;padding:10px;">Clear All App Data</button>
     </div>
 </div>
 
 <script>
-    const monthsShort = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-    const monthsFull  = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+    const MS  = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+
+    function fmtFull(ds) {
+        if (!ds) return "—";
+        const d = new Date(ds + "T12:00:00");
+        return `${d.getDate()} ${MS[d.getMonth()]} ${d.getFullYear()}`;
+    }
 
     function setToday() {
         const t = new Date();
-        const yyyy = t.getFullYear();
-        const mm = String(t.getMonth()+1).padStart(2,'0');
-        const dd = String(t.getDate()).padStart(2,'0');
-        document.getElementById('currDate').value = `${yyyy}-${mm}-${dd}`;
+        document.getElementById('currDate').value =
+            `${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,'0')}-${String(t.getDate()).padStart(2,'0')}`;
     }
 
-    window.onload = function() {
-        setToday();
-        if(localStorage.getItem('savedLastRead'))  document.getElementById('lastRead').value  = localStorage.getItem('savedLastRead');
-        if(localStorage.getItem('savedLastDate'))  document.getElementById('lastDate').value  = localStorage.getItem('savedLastDate');
-        renderAll();
-    };
+    function saveRateMonths() {
+        localStorage.setItem('rateMonths', document.getElementById('rateMonths').value);
+    }
+
+    function getCostPerKWh(n) {
+        let bills = JSON.parse(localStorage.getItem('actualBills') || "[]")
+            .filter(b => parseFloat(b.usage) > 0 && parseFloat(b.cost) > 0);
+        bills.sort((a, b) => new Date(b.endDate||0) - new Date(a.endDate||0));
+        if (n !== 'all') bills = bills.slice(0, parseInt(n));
+        if (!bills.length) return null;
+        const tc = bills.reduce((s,b) => s + parseFloat(b.cost), 0);
+        const tu = bills.reduce((s,b) => s + parseFloat(b.usage), 0);
+        return tu > 0 ? tc / tu : null;
+    }
 
     function toggleSection(id) {
         const el = document.getElementById(id);
         el.style.display = (el.style.display === 'block') ? 'none' : 'block';
     }
 
-    function formatDisplayDate(dateString) {
-        if (!dateString) return "N/A";
-        const d = new Date(dateString + "T12:00:00");
-        return `${d.getDate()} ${monthsShort[d.getMonth()]}`;
+    function updateLiveRate() {
+        const cost  = parseFloat(document.getElementById('billCost').value);
+        const usage = parseFloat(document.getElementById('billUsage').value);
+        const el = document.getElementById('liveRate');
+        if (cost > 0 && usage > 0) {
+            el.style.display = 'block';
+            el.innerText = `Cost per kWh: $${(cost/usage).toFixed(4)}`;
+        } else {
+            el.style.display = 'none';
+        }
     }
 
-    function formatFullDate(dateString) {
-        if (!dateString) return "";
-        const d = new Date(dateString + "T12:00:00");
-        return `${monthsFull[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
-    }
+    window.onload = function() {
+        setToday();
+        const saved = localStorage.getItem('rateMonths');
+        if (saved) document.getElementById('rateMonths').value = saved;
+        if (localStorage.getItem('savedLastRead')) document.getElementById('lastRead').value = localStorage.getItem('savedLastRead');
+        if (localStorage.getItem('savedLastDate')) document.getElementById('lastDate').value = localStorage.getItem('savedLastDate');
+        renderAll();
+    };
 
     function calculate() {
-        const lr = parseFloat(document.getElementById('lastRead').value);
-        const cr = parseFloat(document.getElementById('currRead').value);
-        const ld = new Date(document.getElementById('lastDate').value);
-        const cd = new Date(document.getElementById('currDate').value);
-
-        if(!lr || !cr || isNaN(ld) || isNaN(cd)) return alert("Fill all estimator fields.");
+        const lr   = parseFloat(document.getElementById('lastRead').value);
+        const cr   = parseFloat(document.getElementById('currRead').value);
+        const ldS  = document.getElementById('lastDate').value;
+        const cdS  = document.getElementById('currDate').value;
+        const ld   = new Date(ldS), cd = new Date(cdS);
+        if (!lr || !cr || isNaN(ld) || isNaN(cd)) return alert("Fill all estimator fields.");
         const days = (cd - ld) / (1000*60*60*24);
         if (days <= 0) return alert("Date of Reading must be after Last Statement Date.");
 
-        const est = (((cr - lr) / days) * 31 / 7).toFixed(2);
-        const readingDate = document.getElementById('currDate').value;
-
+        const dailyKWh = (cr - lr) / days;
         let history = JSON.parse(localStorage.getItem('estHistory') || "[]");
-        history.unshift({ id: Date.now(), date: readingDate, price: est, reading: cr });
+        history.unshift({ id: Date.now(), date: cdS, reading: cr, lastRead: lr, lastDate: ldS, dailyAvg: parseFloat(dailyKWh.toFixed(2)) });
         localStorage.setItem('estHistory', JSON.stringify(history));
-
         localStorage.setItem('savedLastRead', lr);
-        localStorage.setItem('savedLastDate', document.getElementById('lastDate').value);
+        localStorage.setItem('savedLastDate', ldS);
 
         toggleSection('entryInput');
         renderAll();
@@ -209,16 +243,10 @@
         const startDate  = document.getElementById('billStartDate').value;
         const endDate    = document.getElementById('billEndDate').value;
         const endReading = document.getElementById('billEndReading').value;
-
-        if(!cost || !usage || !startDate || !endDate) return alert("Fill statement details and dates.");
-
-        const startD = new Date(startDate + "T12:00:00");
-        const month  = startD.getMonth();
-        const year   = startD.getFullYear();
-        const dateRangeStr = `${formatDisplayDate(startDate)} - ${formatDisplayDate(endDate)}`;
+        if (!cost || !usage || !startDate || !endDate) return alert("Fill all statement fields.");
 
         let bills = JSON.parse(localStorage.getItem('actualBills') || "[]");
-        bills.push({ id: Date.now(), month, year, cost, usage, dateRange: dateRangeStr });
+        bills.push({ id: Date.now(), cost, usage, startDate, endDate, endReading });
         localStorage.setItem('actualBills', JSON.stringify(bills));
 
         if (endReading && endDate) {
@@ -228,73 +256,96 @@
             localStorage.setItem('savedLastDate', endDate);
         }
 
-        document.getElementById('billCost').value = "";
-        document.getElementById('billUsage').value = "";
-        document.getElementById('billEndReading').value = "";
+        ['billCost','billUsage','billEndReading','billStartDate','billEndDate'].forEach(id => {
+            document.getElementById(id).value = "";
+        });
+        document.getElementById('liveRate').style.display = 'none';
         toggleSection('statementInput');
         renderAll();
     }
 
     function renderAll() {
-        const bills   = JSON.parse(localStorage.getItem('actualBills') || "[]");
-        const display = document.getElementById('billDisplay');
-        display.innerHTML = "";
+        const rateMonths = document.getElementById('rateMonths').value;
+        const rate = getCostPerKWh(rateMonths);
 
-        const grouped = {};
-        bills.forEach(b => {
-            if(!grouped[b.year]) grouped[b.year] = [];
-            grouped[b.year].push(b);
-        });
+        document.getElementById('rateDisplay').innerText = rate ? `$${rate.toFixed(4)}/kWh` : '—';
 
-        Object.keys(grouped).sort((a,b) => b - a).forEach(year => {
-            let yearHtml = `<div class="bill-year-group"><div class="year-header">${year}</div>`;
-            grouped[year].sort((a,b) => b.month - a.month).forEach(b => {
-                yearHtml += `
+        // Banner
+        const history = JSON.parse(localStorage.getItem('estHistory') || "[]");
+        if (history.length > 0) {
+            const h = history[0];
+            const monthlyKWh = h.dailyAvg * 31;
+            document.getElementById('estVal').innerText  = rate ? `$${(monthlyKWh * rate).toFixed(2)}` : '—';
+            document.getElementById('estKwh').innerText  = `${h.dailyAvg.toFixed(1)} kWh/day`;
+            document.getElementById('estDate').innerText = `as of ${fmtFull(h.date)}`;
+        } else {
+            document.getElementById('estVal').innerText  = '—';
+            document.getElementById('estKwh').innerText  = '';
+            document.getElementById('estDate').innerText = '';
+        }
+
+        // Monthly statements
+        let bills = JSON.parse(localStorage.getItem('actualBills') || "[]");
+        bills.sort((a, b) => new Date(b.endDate||0) - new Date(a.endDate||0));
+        const billDisplay = document.getElementById('billDisplay');
+        if (bills.length === 0) {
+            billDisplay.innerHTML = '<p class="empty-msg">No statements saved yet.</p>';
+        } else {
+            billDisplay.innerHTML = bills.map(b => {
+                const days = (b.startDate && b.endDate)
+                    ? Math.round((new Date(b.endDate+"T12:00:00") - new Date(b.startDate+"T12:00:00")) / (1000*60*60*24))
+                    : null;
+                const dailyAvg = (days && days > 0) ? (parseFloat(b.usage)/days).toFixed(1) : null;
+                const bRate    = (parseFloat(b.cost)>0 && parseFloat(b.usage)>0)
+                    ? `$${(parseFloat(b.cost)/parseFloat(b.usage)).toFixed(4)}/kWh` : null;
+                return `
                 <div class="bill-row">
-                    <div class="bill-top">
-                        <span style="font-size:16px;"><b>${monthsFull[b.month]}</b></span>
-                        <span style="font-size:16px; font-weight:bold;">$${b.cost} <span style="color:#606770; font-size:12px; font-weight:normal;">(${b.usage} kWh)</span></span>
-                    </div>
-                    <div class="bill-top" style="margin-bottom:0;">
-                        <span class="bill-dates">${b.dateRange || ""}</span>
+                    <div class="bill-row-top">
+                        <span class="bill-dates-full">${fmtFull(b.startDate)} – ${fmtFull(b.endDate)}</span>
                         <span class="del-btn" onclick="deleteBill(${b.id})">×</span>
                     </div>
+                    <div class="bill-meta">
+                        <b style="color:#1c1e21;">$${parseFloat(b.cost).toFixed(2)}</b> &nbsp;•&nbsp; ${b.usage} kWh
+                        ${dailyAvg ? `&nbsp;•&nbsp; ${dailyAvg} kWh/day` : ''}
+                        ${bRate    ? `&nbsp;•&nbsp; <span style="color:#007AFF;">${bRate}</span>` : ''}
+                    </div>
+                    ${b.endReading ? `<div class="bill-meta">End reading: <b>${b.endReading}</b></div>` : ''}
                 </div>`;
-            });
-            yearHtml += `</div>`;
-            display.innerHTML += yearHtml;
-        });
+            }).join('');
+        }
 
-        const history = JSON.parse(localStorage.getItem('estHistory') || "[]");
-        const hList   = document.getElementById('historyList');
-        hList.innerHTML = history.map(h => `
-            <div class="history-item">
-                <span style="color:#606770;">${formatDisplayDate(h.date)}</span>
-                <strong style="color:#007AFF; font-size:15px;">$${h.price}</strong>
-                <span class="del-btn" onclick="deleteHistory(${h.id})">×</span>
-            </div>
-        `).join('');
-
-        if (history.length > 0) {
-            document.getElementById('estVal').innerText  = "$" + history[0].price;
-            document.getElementById('estDate').innerText = "as of " + formatFullDate(history[0].date);
+        // Entry history
+        const hList = document.getElementById('historyList');
+        if (history.length === 0) {
+            hList.innerHTML = '<p class="empty-msg">No entries yet.</p>';
         } else {
-            document.getElementById('estVal').innerText  = "$0.00";
-            document.getElementById('estDate').innerText = "";
+            hList.innerHTML = history.map(h => {
+                const monthlyKWh = h.dailyAvg * 31;
+                const costStr = rate ? `$${(monthlyKWh * rate).toFixed(2)} est.` : '—';
+                return `
+                <div class="history-item">
+                    <div class="hist-info">
+                        <div class="hist-date">${fmtFull(h.date)}</div>
+                        <div class="hist-sub">${h.dailyAvg ? h.dailyAvg.toFixed(1) + ' kWh/day avg' : ''}</div>
+                    </div>
+                    <span class="hist-price">${costStr}</span>
+                    <span class="del-btn" onclick="deleteHistory(${h.id})">×</span>
+                </div>`;
+            }).join('');
         }
     }
 
     function deleteBill(id) {
         if (confirm("Delete this statement?")) {
-            let bills = JSON.parse(localStorage.getItem('actualBills') || "[]").filter(b => b.id !== id);
+            let bills = JSON.parse(localStorage.getItem('actualBills')||"[]").filter(b => b.id !== id);
             localStorage.setItem('actualBills', JSON.stringify(bills));
             renderAll();
         }
     }
 
     function deleteHistory(id) {
-        if (confirm("Delete this estimate entry?")) {
-            let history = JSON.parse(localStorage.getItem('estHistory') || "[]").filter(h => h.id !== id);
+        if (confirm("Delete this entry?")) {
+            let history = JSON.parse(localStorage.getItem('estHistory')||"[]").filter(h => h.id !== id);
             localStorage.setItem('estHistory', JSON.stringify(history));
             renderAll();
         }
