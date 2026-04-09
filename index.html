@@ -3,134 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Electricity Bill Estimator</title>
-    
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Bill Calc">
-    
+    <title>Electricity Tracker</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f4f4f9;
-            display: flex;
-            justify-content: center;
-            padding-top: 50px;
-            margin: 0;
-        }
-        .container {
-            background: white;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            width: 90%;
-            max-width: 400px;
-        }
-        h2 { text-align: center; color: #333; }
-        label { display: block; margin-top: 15px; color: #666; font-size: 14px; }
-        input {
-            width: 100%;
-            padding: 12px;
-            margin-top: 5px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            box-sizing: border-box;
-            font-size: 16px; /* Prevents iOS zoom on focus */
-        }
-        button {
-            width: 100%;
-            padding: 15px;
-            margin-top: 25px;
-            background-color: #007AFF;
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: bold;
-        }
-        .result-box {
-            margin-top: 30px;
-            padding: 20px;
-            background-color: #e8f2ff;
-            border-radius: 12px;
-            text-align: center;
-        }
-        #estimate { font-size: 32px; font-weight: bold; color: #007AFF; display: block; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 20px 0; margin: 0; }
+        .container { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 90%; max-width: 420px; }
+        h2 { text-align: center; color: #1c1e21; font-size: 20px; margin: 0 0 20px 0; }
+        
+        .section-box { background: #f8f9fa; padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #e9ecef; }
+        label { display: block; margin-bottom: 4px; color: #606770; font-size: 10px; font-weight: 700; text-transform: uppercase; }
+        input, select { width: 100%; padding: 10px; border: 1px solid #dddfe2; border-radius: 8px; box-sizing: border-box; font-size: 15px; margin-bottom: 10px; }
+        
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: opacity 0.2s; }
+        .btn-blue { background: #007AFF; color: white; }
+        .btn-green { background: #34c759; color: white; margin-top: 5px; }
+        .btn-outline { background: none; border: 1px solid #007AFF; color: #007AFF; margin-top: 10px; padding: 10px; font-size: 14px; }
+        .btn-statement { border-color: #34c759; color: #166534; }
+        
+        .bill-year-group { margin-top: 15px; }
+        .year-header { font-size: 16px; font-weight: 800; color: #1c1e21; border-bottom: 2px solid #007AFF; padding-bottom: 4px; margin-bottom: 10px; }
+        .bill-row { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #f0f2f5; font-size: 14px; }
+        
+        .collapse-content { display: none; margin-top: 10px; }
+        .history-item { background: #fff; border: 1px solid #eee; padding: 10px; border-radius: 8px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+        .del-btn { color: #ff3b30; cursor: pointer; font-weight: bold; padding: 0 10px; }
+        
+        .summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 15px; }
+        .res-box { padding: 10px; background: #e7f3ff; border-radius: 10px; text-align: center; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Bill Estimator</h2>
-    
-    <label>Last Billing Reading</label>
-    <input type="number" id="lastRead" placeholder="Enter last reading">
-    
-    <label>Last Reading Date</label>
-    <input type="date" id="lastDate">
-    
-    <label>Current Reading</label>
-    <input type="number" id="currentRead" placeholder="Enter current reading">
-    
-    <label>Current Reading Date</label>
-    <input type="date" id="currentDate">
+    <h2>Electricity Estimator & Tracker</h2>
 
-    <button onclick="calculate()">Calculate Estimate</button>
+    <div class="section-box">
+        <div class="summary-grid">
+            <div class="res-box"><label>Last Reading</label><input type="number" id="lastRead" style="margin:0; text-align:center;"></div>
+            <div class="res-box"><label>Last Date</label><input type="date" id="lastDate" style="margin:0; text-align:center;"></div>
+        </div>
+        <label>Current Meter Reading</label>
+        <input type="number" id="currRead">
+        <label>Date of Reading</label>
+        <input type="date" id="currDate">
+        <button class="btn btn-blue" onclick="calculate()">Save Estimate</button>
+        <div style="text-align:center; margin-top:10px;">
+            <label>Current Est. Bill</label>
+            <span id="estVal" style="font-size:24px; font-weight:800; color:#007AFF;">$0.00</span>
+        </div>
+    </div>
 
-    <div class="result-box">
-        <span style="color: #666;">Estimated Monthly Cost</span>
-        <span id="estimate">$0.00</span>
+    <button class="btn btn-outline btn-statement" onclick="toggleSection('statementInput')">Add Monthly Statement ▼</button>
+    <div id="statementInput" class="collapse-content">
+        <div class="section-box" style="background:#f0fff4; border-color:#dcfce7; margin-top:10px;">
+            <label style="color:#166534;">Input Actual Statement</label>
+            <div style="display:flex; gap:5px;">
+                <select id="billMonth">
+                    <option value="0">Jan</option><option value="1">Feb</option><option value="2">Mar</option>
+                    <option value="3">Apr</option><option value="4">May</option><option value="5">Jun</option>
+                    <option value="6">Jul</option><option value="7">Aug</option><option value="8">Sep</option>
+                    <option value="9">Oct</option><option value="10">Nov</option><option value="11">Dec</option>
+                </select>
+                <input type="number" id="billYear" placeholder="Year">
+            </div>
+            <div style="display:flex; gap:5px;">
+                <input type="number" id="billCost" placeholder="Cost ($)">
+                <input type="number" id="billUsage" placeholder="Usage (Units)">
+            </div>
+            <button class="btn btn-green" onclick="saveActualBill()">Save Statement</button>
+        </div>
+    </div>
+
+    <div id="billDisplay"></div>
+
+    <button class="btn btn-outline" onclick="toggleSection('historyCollapse')">View Entry History ▼</button>
+    <div id="historyCollapse" class="collapse-content">
+        <div id="historyList"></div>
+        <button onclick="clearAll()" style="color:red; font-size:10px; border:none; background:none; cursor:pointer; width:100%; margin-top:10px;">Clear All Data</button>
     </div>
 </div>
 
 <script>
-    // Set today as the default current date
-    document.getElementById('currentDate').valueAsDate = new Date();
+    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
-    // Load saved data from last time
+    function setToday() {
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+        document.getElementById('currDate').value = `${yyyy}-${mm}-${dd}`;
+    }
+
     window.onload = function() {
-        if(localStorage.getItem('lastRead')) {
-            document.getElementById('lastRead').value = localStorage.getItem('lastRead');
-        }
-        if(localStorage.getItem('lastDate')) {
-            document.getElementById('lastDate').value = localStorage.getItem('lastDate');
-        }
+        setToday();
+        const today = new Date();
+        document.getElementById('billYear').value = today.getFullYear();
+        document.getElementById('billMonth').value = today.getMonth();
+        
+        if(localStorage.getItem('lastRead')) document.getElementById('lastRead').value = localStorage.getItem('lastRead');
+        if(localStorage.getItem('lastDate')) document.getElementById('lastDate').value = localStorage.getItem('lastDate');
+        
+        renderAll();
+    };
+
+    function toggleSection(id) {
+        const el = document.getElementById(id);
+        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
     }
 
     function calculate() {
-        const lastR = parseFloat(document.getElementById('lastRead').value);
-        const currR = parseFloat(document.getElementById('currentRead').value);
-        const dateL = new Date(document.getElementById('lastDate').value);
-        const dateC = new Date(document.getElementById('currentDate').value);
+        const lr = parseFloat(document.getElementById('lastRead').value);
+        const cr = parseFloat(document.getElementById('currRead').value);
+        const ld = new Date(document.getElementById('lastDate').value);
+        const cd = new Date(document.getElementById('currDate').value);
 
-        if (!lastR || !currR || isNaN(dateL) || isNaN(dateC)) {
-            alert("Please fill in all fields");
-            return;
-        }
+        if(!lr || !cr || isNaN(ld) || isNaN(cd)) return alert("Fill estimator fields");
 
-        // Calculate time difference in days
-        const diffInMs = Math.abs(dateC - dateL);
-        const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+        const days = (cd - ld) / (1000*60*60*24);
+        if (days <= 0) return alert("Reading date must be after last billing date.");
 
-        if (diffInDays === 0) {
-            alert("Dates cannot be the same");
-            return;
-        }
-
-        // Your Logic
-        const usage = currR - lastR;
-        const dailyUsage = usage / diffInDays;
-        const monthlyUsage = dailyUsage * 31;
-        const finalEstimate = monthlyUsage / 7;
-
-        // Display result
-        document.getElementById('estimate').innerText = "$" + finalEstimate.toFixed(2);
-
-        // Save current data to become "last" data next time
-        localStorage.setItem('lastRead', currR);
-        localStorage.setItem('lastDate', document.getElementById('currentDate').value);
+        const est = (((cr - lr) / days) * 31 / 7).toFixed(2);
+        document.getElementById('estVal').innerText = "$" + est;
+        
+        let history = JSON.parse(localStorage.getItem('estHistory') || "[]");
+        history.unshift({ id: Date.now(), date: document.getElementById('currDate').value, price: est, reading: cr });
+        localStorage.setItem('estHistory', JSON.stringify(history));
+        
+        // Update persistent last read/date for convenience
+        localStorage.setItem('lastRead', lr);
+        localStorage.setItem('lastDate', document.getElementById('lastDate').value);
+        
+        renderAll();
+        setToday(); // Ensure it resets to today after saving
     }
-</script>
 
+    function saveActualBill() {
+        const cost = document.getElementById('billCost').value;
+        const usage = document.getElementById('billUsage').value;
+        const month = document.getElementById('billMonth').value;
+        const year = document.getElementById('billYear').value;
+
+        if(!cost || !usage || !year) return alert("Fill statement details");
+
+        let bills = JSON.parse(localStorage.getItem('actualBills') || "[]");
+        bills.push({ id: Date.now(), month, year, cost, usage });
+        localStorage.setItem('actualBills', JSON.stringify(bills));
+        
+        document.getElementById('billCost').value = "";
+        document.getElementById('billUsage').value = "";
+        toggleSection('statementInput'); // Close section after save
+        renderAll();
+    }
+
+    function renderAll() {
+        const bills = JSON.parse(localStorage.getItem('actualBills') || "[]");
+        const display = document.getElementById('billDisplay');
+        display.innerHTML = "";
+
+        const grouped = {};
+        bills.forEach(b => {
+            if(!grouped[b.year]) grouped[b.year] = [];
+            grouped[b.year].push(b);
+        });
+
+        Object.keys(grouped).sort((a,b) => b - a).forEach(year => {
+            let yearHtml = `<div class="bill-year-group"><div class="year-header">${year}</div>`;
+            grouped[year].sort((a,b) => b.month - a.month).forEach(b => {
+                yearHtml += `<div class="bill-row">
+                    <span><b>${months[b.month]}</b></span>
+                    <span>$${b.cost} <small style="color:#8e8e93;">(${b.usage} units)</small></span>
+                    <span class="del-btn" onclick="deleteBill(${b.id})">×</span>
+                </div>`;
+            });
+            yearHtml += `</div>`;
+            display.innerHTML += yearHtml;
+        });
+
+        const history = JSON.parse(localStorage.getItem('estHistory') || "[]");
+        const hList = document.getElementById('historyList');
+        hList.innerHTML = history.map(h => `
+            <div class="history-item">
+                <span>${h.date}</span>
+                <strong>$${h.price}</strong>
+                <span class="del-btn" onclick="deleteHistory(${h.id})">×</span>
+            </div>
+        `).join('');
+    }
+
+    function deleteBill(id) {
+        let bills = JSON.parse(localStorage.getItem('actualBills') || "[]").filter(b => b.id !== id);
+        localStorage.setItem('actualBills', JSON.stringify(bills));
+        renderAll();
+    }
+
+    function deleteHistory(id) {
+        let history = JSON.parse(localStorage.getItem('estHistory') || "[]").filter(h => h.id !== id);
+        localStorage.setItem('estHistory', JSON.stringify(history));
+        renderAll();
+    }
+
+    function clearAll() { if(confirm("Clear everything?")) { localStorage.clear(); location.reload(); } }
+</script>
 </body>
 </html>
