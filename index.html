@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Bill Estimator</title>
+    
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Bill Calc">
+    
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            padding-top: 50px;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 400px;
+        }
+        h2 { text-align: center; color: #333; }
+        label { display: block; margin-top: 15px; color: #666; font-size: 14px; }
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 5px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-sizing: border-box;
+            font-size: 16px; /* Prevents iOS zoom on focus */
+        }
+        button {
+            width: 100%;
+            padding: 15px;
+            margin-top: 25px;
+            background-color: #007AFF;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .result-box {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #e8f2ff;
+            border-radius: 12px;
+            text-align: center;
+        }
+        #estimate { font-size: 32px; font-weight: bold; color: #007AFF; display: block; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Bill Estimator</h2>
+    
+    <label>Last Billing Reading</label>
+    <input type="number" id="lastRead" placeholder="Enter last reading">
+    
+    <label>Last Reading Date</label>
+    <input type="date" id="lastDate">
+    
+    <label>Current Reading</label>
+    <input type="number" id="currentRead" placeholder="Enter current reading">
+    
+    <label>Current Reading Date</label>
+    <input type="date" id="currentDate">
+
+    <button onclick="calculate()">Calculate Estimate</button>
+
+    <div class="result-box">
+        <span style="color: #666;">Estimated Monthly Cost</span>
+        <span id="estimate">$0.00</span>
+    </div>
+</div>
+
+<script>
+    // Set today as the default current date
+    document.getElementById('currentDate').valueAsDate = new Date();
+
+    // Load saved data from last time
+    window.onload = function() {
+        if(localStorage.getItem('lastRead')) {
+            document.getElementById('lastRead').value = localStorage.getItem('lastRead');
+        }
+        if(localStorage.getItem('lastDate')) {
+            document.getElementById('lastDate').value = localStorage.getItem('lastDate');
+        }
+    }
+
+    function calculate() {
+        const lastR = parseFloat(document.getElementById('lastRead').value);
+        const currR = parseFloat(document.getElementById('currentRead').value);
+        const dateL = new Date(document.getElementById('lastDate').value);
+        const dateC = new Date(document.getElementById('currentDate').value);
+
+        if (!lastR || !currR || isNaN(dateL) || isNaN(dateC)) {
+            alert("Please fill in all fields");
+            return;
+        }
+
+        // Calculate time difference in days
+        const diffInMs = Math.abs(dateC - dateL);
+        const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+
+        if (diffInDays === 0) {
+            alert("Dates cannot be the same");
+            return;
+        }
+
+        // Your Logic
+        const usage = currR - lastR;
+        const dailyUsage = usage / diffInDays;
+        const monthlyUsage = dailyUsage * 31;
+        const finalEstimate = monthlyUsage / 7;
+
+        // Display result
+        document.getElementById('estimate').innerText = "$" + finalEstimate.toFixed(2);
+
+        // Save current data to become "last" data next time
+        localStorage.setItem('lastRead', currR);
+        localStorage.setItem('lastDate', document.getElementById('currentDate').value);
+    }
+</script>
+
+</body>
+</html>
