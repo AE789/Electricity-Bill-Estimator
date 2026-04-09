@@ -13,325 +13,253 @@
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23007AFF%22/><text y=%2250%22 x=%2250%22 font-size=%2270%22 dominant-baseline=%22central%22 text-anchor=%22middle%22>⚡</text></svg>">
     
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 15px 0; margin: 0; }
-        .container { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 92%; max-width: 420px; box-sizing: border-box; }
-        h2 { text-align: center; color: #1c1e21; font-size: 20px; margin: 0 0 20px 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f2f2f7; display: flex; justify-content: center; padding: 15px 0; margin: 0; }
+        .container { background: white; padding: 20px; border-radius: 24px; box-shadow: 0 4px 20px rgba(0,0,0,0.05); width: 94%; max-width: 420px; box-sizing: border-box; }
         
-        /* Top Estimate Display */
-        .top-estimate { text-align: center; background: #e7f3ff; padding: 25px 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #cce5ff; }
-        .est-label { color: #0056b3; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
-        .est-val { font-size: 38px; font-weight: 800; color: #007AFF; display: block; margin-top: 5px; }
+        /* Estimation Header */
+        .hero-est { text-align: center; background: linear-gradient(135deg, #007AFF, #0056b3); padding: 30px 15px; border-radius: 20px; margin-bottom: 20px; color: white; box-shadow: 0 8px 15px rgba(0,122,255,0.2); }
+        .est-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; opacity: 0.9; }
+        .est-val { font-size: 42px; font-weight: 800; display: block; margin-top: 5px; }
 
-        label { display: block; margin-bottom: 4px; color: #606770; font-size: 10px; font-weight: 700; text-transform: uppercase; }
-        
-        input { 
-            width: 100%; height: 44px; padding: 10px; border: 1px solid #dddfe2; border-radius: 8px; 
-            box-sizing: border-box; font-size: 15px; margin-bottom: 12px; font-family: inherit; background: #fff;
-            -webkit-appearance: none;
-        }
-        
-        .flex-row { display: flex; gap: 8px; width: 100%; }
-        .flex-col { flex: 1; min-width: 0; }
-        
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; box-sizing: border-box; margin-bottom: 10px; }
+        /* Buttons */
+        .btn { width: 100%; padding: 16px; border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer; margin-bottom: 12px; transition: transform 0.1s; }
+        .btn:active { transform: scale(0.98); }
         .btn-blue { background: #007AFF; color: white; }
         .btn-green { background: #34c759; color: white; }
-        .btn-gray { background: #e9ecef; color: #495057; }
-        .btn-outline { background: none; border: 1px solid #dddfe2; color: #1c1e21; padding: 12px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
+        .btn-gray { background: #e5e5ea; color: #1c1c1e; }
         
-        .bill-year-group { margin-top: 10px; }
-        .year-header { font-size: 16px; font-weight: 800; color: #1c1e21; border-bottom: 2px solid #007AFF; padding-bottom: 4px; margin-bottom: 10px; }
-        .bill-row { display: flex; flex-direction: column; padding: 12px; border-bottom: 1px solid #f0f2f5; font-size: 14px; background: #fff; border-radius: 8px; margin-bottom: 8px; border: 1px solid #eee; }
-        .bill-top { display: flex; justify-content: space-between; align-items: center; }
+        .btn-outline { background: white; border: 1px solid #d1d1d6; color: #1c1c1e; font-size: 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+
+        /* Inputs */
+        label { display: block; margin-bottom: 5px; color: #8e8e93; font-size: 10px; font-weight: 800; text-transform: uppercase; }
+        input { 
+            width: 100%; height: 48px; padding: 12px; border: 1px solid #d1d1d6; border-radius: 10px; 
+            box-sizing: border-box; font-size: 16px; margin-bottom: 15px; font-family: inherit; background: #f9f9f9;
+            -webkit-appearance: none;
+        }
+
+        /* Collapsible Sections */
+        .collapse-content { display: none; margin-bottom: 15px; }
+        .year-group { margin-top: 15px; }
+        .year-header { font-size: 14px; font-weight: 800; color: #8e8e93; padding: 0 5px 5px; border-bottom: 1px solid #e5e5ea; margin-bottom: 10px; }
         
-        .collapse-content { display: none; margin-bottom: 15px; padding: 10px; background: #f8f9fa; border-radius: 12px; border: 1px solid #eee; }
-        .history-item { background: #fff; border: 1px solid #eee; padding: 12px; border-radius: 8px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
-        .del-btn { color: #ff3b30; cursor: pointer; font-weight: bold; padding: 6px 12px; background: #fff1f0; border-radius: 6px; font-size: 12px; }
+        .card { background: #fff; border: 1px solid #e5e5ea; padding: 15px; border-radius: 12px; margin-bottom: 10px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .card-row { display: flex; justify-content: space-between; align-items: center; }
+        .card-sub { font-size: 12px; color: #8e8e93; margin-top: 4px; }
+        .del-text { color: #ff3b30; font-size: 12px; font-weight: 600; cursor: pointer; padding: 5px; }
+
+        /* Modal Overlays */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: flex-end; backdrop-filter: blur(4px); }
+        .modal-body { background: white; width: 100%; max-width: 450px; border-radius: 25px 25px 0 0; padding: 25px; box-sizing: border-box; animation: slideUp 0.3s ease-out; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
         
-        /* Modal Styles */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 100; justify-content: center; align-items: center; backdrop-filter: blur(2px); }
-        .modal-content { background: white; padding: 20px; border-radius: 16px; width: 90%; max-width: 380px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
-        .modal-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #1c1e21; text-align: center; }
+        .flex { display: flex; gap: 10px; }
+        .flex > * { flex: 1; min-width: 0; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Electricity Tracker</h2>
-
-    <div class="top-estimate">
+    <div class="hero-est">
         <div class="est-label" id="estLabel">Estimate for Current Billing Cycle as of --</div>
         <span class="est-val" id="estVal">$0.00</span>
     </div>
 
-    <button class="btn btn-blue" onclick="openModal('estimateModal')">Add New Entry</button>
-    <button class="btn btn-green" onclick="openModal('statementModal')">Add Monthly Statement</button>
+    <button class="btn btn-blue" onclick="openModal('entryModal')">Add New Entry</button>
+    <button class="btn btn-green" onclick="openModal('billModal')">Add Monthly Statement</button>
 
-    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+    <div style="margin-top: 10px;">
+        <button class="btn btn-outline" onclick="toggleSection('billList', this)">
+            <span>Monthly Statements</span> <span>▼</span>
+        </button>
+        <div id="billList" class="collapse-content"></div>
 
-    <button class="btn btn-outline" onclick="toggleSection('statementsCollapse', this)">
-        <span>Monthly Statements</span> <span class="arrow">▼</span>
-    </button>
-    <div id="statementsCollapse" class="collapse-content">
-        <div id="billDisplay"></div>
+        <button class="btn btn-outline" onclick="toggleSection('histList', this)">
+            <span>Entry History</span> <span>▼</span>
+        </button>
+        <div id="histList" class="collapse-content"></div>
     </div>
 
-    <button class="btn btn-outline" onclick="toggleSection('historyCollapse', this)">
-        <span>Entry History</span> <span class="arrow">▼</span>
-    </button>
-    <div id="historyCollapse" class="collapse-content">
-        <div id="historyList"></div>
-        <button onclick="clearAll()" style="color:#ff3b30; font-size:12px; border:none; background:none; cursor:pointer; width:100%; margin-top:15px; padding:10px; font-weight:bold;">Clear All App Data</button>
+    <button onclick="clearAll()" style="color:#ff3b30; font-size:11px; border:none; background:none; cursor:pointer; width:100%; margin-top:20px; font-weight:700;">WIPE ALL DATA</button>
+</div>
+
+<div id="entryModal" class="modal" onclick="if(event.target==this) closeModal('entryModal')">
+    <div class="modal-body">
+        <h3 style="margin:0 0 20px; text-align:center;">New Meter Reading</h3>
+        <div class="flex">
+            <div><label>Prev Billing Reading</label><input type="number" id="lastRead"></div>
+            <div><label>Last Statement Date</label><input type="date" id="lastDate"></div>
+        </div>
+        <div class="flex">
+            <div><label>Current Reading</label><input type="number" id="currRead"></div>
+            <div><label>Date of Reading</label><input type="date" id="currDate"></div>
+        </div>
+        <button class="btn btn-blue" onclick="saveEntry()">Calculate & Save</button>
+        <button class="btn btn-gray" onclick="closeModal('entryModal')">Cancel</button>
     </div>
 </div>
 
-<div id="estimateModal" class="modal-overlay">
-    <div class="modal-content">
-        <div class="modal-title">New Meter Reading</div>
-        
-        <div class="flex-row">
-            <div class="flex-col">
-                <label>Prev Billing Reading</label>
-                <input type="number" id="lastRead">
-            </div>
-            <div class="flex-col">
-                <label>Last Statement Date</label>
-                <input type="date" id="lastDate">
-            </div>
+<div id="billModal" class="modal" onclick="if(event.target==this) closeModal('billModal')">
+    <div class="modal-body">
+        <h3 style="margin:0 0 20px; text-align:center;">Add Monthly Statement</h3>
+        <div class="flex">
+            <div><label>Statement From</label><input type="date" id="bStart"></div>
+            <div><label>Statement To</label><input type="date" id="bEnd"></div>
         </div>
-        
-        <div class="flex-row">
-            <div class="flex-col">
-                <label>Current Meter Reading</label>
-                <input type="number" id="currRead">
-            </div>
-            <div class="flex-col">
-                <label>Date of Reading</label>
-                <input type="date" id="currDate">
-            </div>
+        <div class="flex">
+            <div><label>Billing Amount ($)</label><input type="number" id="bCost" placeholder="0.00"></div>
+            <div><label>Total Usage (kWh)</label><input type="number" id="bUsage" placeholder="kWh"></div>
         </div>
-
-        <button class="btn btn-blue" onclick="calculate()">Save Estimate</button>
-        <button class="btn btn-gray" style="margin-bottom:0;" onclick="closeModal('estimateModal')">Cancel</button>
-    </div>
-</div>
-
-<div id="statementModal" class="modal-overlay">
-    <div class="modal-content">
-        <div class="modal-title">Add Monthly Statement</div>
-
-        <div class="flex-row">
-            <div class="flex-col">
-                <label>Statement From</label>
-                <input type="date" id="billStartDate">
-            </div>
-            <div class="flex-col">
-                <label>Statement To</label>
-                <input type="date" id="billEndDate">
-            </div>
-        </div>
-
-        <div class="flex-row">
-            <div class="flex-col">
-                <label>Billing Amount ($)</label>
-                <input type="number" id="billCost" placeholder="0.00">
-            </div>
-            <div class="flex-col">
-                <label>Total Usage (kWh)</label>
-                <input type="number" id="billUsage" placeholder="kWh">
-            </div>
-        </div>
-
         <label>End Reading</label>
-        <input type="number" id="billEndReading" placeholder="Reading on end date">
-
-        <button class="btn btn-green" onclick="saveActualBill()">Save Statement</button>
-        <button class="btn btn-gray" style="margin-bottom:0;" onclick="closeModal('statementModal')">Cancel</button>
+        <input type="number" id="bEndRead">
+        <button class="btn btn-green" onclick="saveBill()">Save Statement</button>
+        <button class="btn btn-gray" onclick="closeModal('billModal')">Cancel</button>
     </div>
 </div>
 
 <script>
-    const monthsShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const mShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-    function setToday() {
-        const today = new Date();
-        const yyyy = today.getFullYear();
-        const mm = String(today.getMonth() + 1).padStart(2, '0');
-        const dd = String(today.getDate()).padStart(2, '0');
-        document.getElementById('currDate').value = `${yyyy}-${mm}-${dd}`;
-    }
-
-    window.onload = function() {
-        setToday();
-        
-        if(localStorage.getItem('savedLastRead')) document.getElementById('lastRead').value = localStorage.getItem('savedLastRead');
-        if(localStorage.getItem('savedLastDate')) document.getElementById('lastDate').value = localStorage.getItem('savedLastDate');
-        
-        renderAll();
+    window.onload = () => {
+        if(localStorage.getItem('LRead')) document.getElementById('lastRead').value = localStorage.getItem('LRead');
+        if(localStorage.getItem('LDate')) document.getElementById('lastDate').value = localStorage.getItem('LDate');
+        render();
     };
 
-    function toggleSection(id, btnElement) {
-        const el = document.getElementById(id);
-        const arrow = btnElement.querySelector('.arrow');
-        if (el.style.display === 'block') {
-            el.style.display = 'none';
-            arrow.innerHTML = '▼';
-        } else {
-            el.style.display = 'block';
-            arrow.innerHTML = '▲';
-        }
-    }
-
     function openModal(id) {
-        setToday(); // Ensure dates are fresh when opening
         document.getElementById(id).style.display = 'flex';
+        document.getElementById('currDate').valueAsDate = new Date();
     }
 
-    function closeModal(id) {
-        document.getElementById(id).style.display = 'none';
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+
+    function toggleSection(id, btn) {
+        const el = document.getElementById(id);
+        const isHidden = el.style.display !== 'block';
+        el.style.display = isHidden ? 'block' : 'none';
+        btn.querySelectorAll('span')[1].innerText = isHidden ? '▲' : '▼';
     }
 
-    function formatDisplayDate(dateString) {
-        if (!dateString) return "N/A";
-        const d = new Date(dateString + "T12:00:00"); 
-        return `${d.getDate()} ${monthsShort[d.getMonth()]}`;
+    function fmtD(s) {
+        if(!s) return "--";
+        const d = new Date(s + "T12:00:00");
+        return `${d.getDate()} ${mShort[d.getMonth()]}`;
     }
 
-    function calculate() {
+    function saveEntry() {
         const lr = parseFloat(document.getElementById('lastRead').value);
         const cr = parseFloat(document.getElementById('currRead').value);
         const ld = new Date(document.getElementById('lastDate').value);
         const cd = new Date(document.getElementById('currDate').value);
 
-        if(!lr || !cr || isNaN(ld) || isNaN(cd)) return alert("Fill all estimator fields.");
-        const days = (cd - ld) / (1000*60*60*24);
-        if (days <= 0) return alert("Date of Reading must be after Last Statement Date.");
+        if(!lr || !cr || isNaN(ld) || isNaN(cd)) return alert("Missing data");
+        const days = (cd - ld) / 86400000;
+        if(days <= 0) return alert("Check dates");
 
         const est = (((cr - lr) / days) * 31 / 7).toFixed(2);
-        let history = JSON.parse(localStorage.getItem('estHistory') || "[]");
-        history.unshift({ id: Date.now(), date: document.getElementById('currDate').value, price: est, reading: cr });
-        localStorage.setItem('estHistory', JSON.stringify(history));
+        const hist = JSON.parse(localStorage.getItem('hist') || "[]");
+        hist.unshift({ id: Date.now(), date: document.getElementById('currDate').value, val: est });
         
-        localStorage.setItem('savedLastRead', lr);
-        localStorage.setItem('savedLastDate', document.getElementById('lastDate').value);
+        localStorage.setItem('hist', JSON.stringify(hist));
+        localStorage.setItem('LRead', lr);
+        localStorage.setItem('LDate', document.getElementById('lastDate').value);
         
-        closeModal('estimateModal');
-        renderAll();
+        closeModal('entryModal');
+        render();
     }
 
-    function saveActualBill() {
-        const cost = document.getElementById('billCost').value;
-        const usage = document.getElementById('billUsage').value;
-        const startDate = document.getElementById('billStartDate').value;
-        const endDate = document.getElementById('billEndDate').value;
-        const endReading = document.getElementById('billEndReading').value;
+    function saveBill() {
+        const cost = document.getElementById('bCost').value;
+        const usage = document.getElementById('bUsage').value;
+        const start = document.getElementById('bStart').value;
+        const end = document.getElementById('bEnd').value;
+        const eRead = document.getElementById('bEndRead').value;
 
-        if(!cost || !usage || !startDate || !endDate) return alert("Fill statement details and dates.");
+        if(!cost || !usage || !start || !end) return alert("Fill all fields");
 
-        const endD = new Date(endDate + "T12:00:00");
-        const year = endD.getFullYear();
-        const dateRangeStr = `${formatDisplayDate(startDate)} - ${formatDisplayDate(endDate)}`;
+        const dTo = new Date(end + "T12:00:00");
+        const bills = JSON.parse(localStorage.getItem('bills') || "[]");
+        bills.push({ 
+            id: Date.now(), 
+            yr: dTo.getFullYear(), 
+            time: dTo.getTime(), 
+            cost, usage, 
+            range: `${fmtD(start)} - ${fmtD(end)}` 
+        });
         
-        let bills = JSON.parse(localStorage.getItem('actualBills') || "[]");
-        bills.push({ id: Date.now(), year: year, dateObj: endD.getTime(), cost: cost, usage: usage, dateRange: dateRangeStr });
-        localStorage.setItem('actualBills', JSON.stringify(bills));
-        
-        if (endReading && endDate) {
-            document.getElementById('lastRead').value = endReading;
-            document.getElementById('lastDate').value = endDate;
-            localStorage.setItem('savedLastRead', endReading);
-            localStorage.setItem('savedLastDate', endDate);
+        localStorage.setItem('bills', JSON.stringify(bills));
+        if(eRead && end) {
+            localStorage.setItem('LRead', eRead);
+            localStorage.setItem('LDate', end);
+            document.getElementById('lastRead').value = eRead;
+            document.getElementById('lastDate').value = end;
         }
 
-        document.getElementById('billCost').value = "";
-        document.getElementById('billUsage').value = "";
-        document.getElementById('billEndReading').value = "";
-        
-        closeModal('statementModal');
-        renderAll();
+        closeModal('billModal');
+        render();
     }
 
-    function renderAll() {
-        // Render Actual Statements
-        const bills = JSON.parse(localStorage.getItem('actualBills') || "[]");
-        const display = document.getElementById('billDisplay');
-        display.innerHTML = "";
+    function render() {
+        // Render Bills
+        const bills = JSON.parse(localStorage.getItem('bills') || "[]");
+        const bDiv = document.getElementById('billList');
+        bDiv.innerHTML = "";
+        const grouped = {};
+        bills.forEach(b => {
+            if(!grouped[b.yr]) grouped[b.yr] = [];
+            grouped[b.yr].push(b);
+        });
 
-        if (bills.length === 0) {
-            display.innerHTML = "<p style='text-align:center; color:#8e8e93; font-size:12px;'>No statements added yet.</p>";
-        } else {
-            const grouped = {};
-            bills.forEach(b => {
-                if(!grouped[b.year]) grouped[b.year] = [];
-                grouped[b.year].push(b);
+        Object.keys(grouped).sort((a,b) => b-a).forEach(yr => {
+            let html = `<div class="year-group"><div class="year-header">${yr}</div>`;
+            grouped[yr].sort((a,b) => b.time - a.time).forEach(b => {
+                html += `
+                <div class="card">
+                    <div class="card-row">
+                        <strong>${b.range}</strong>
+                        <span style="font-weight:800; color:#34c759;">$${b.cost}</span>
+                    </div>
+                    <div class="card-row card-sub">
+                        <span>${b.usage} kWh</span>
+                        <span class="del-text" onclick="delItem('bills', ${b.id})">Delete</span>
+                    </div>
+                </div>`;
             });
-
-            Object.keys(grouped).sort((a,b) => b - a).forEach(year => {
-                let yearHtml = `<div class="bill-year-group"><div class="year-header">${year}</div>`;
-                // Sort by date descending within the year
-                grouped[year].sort((a,b) => b.dateObj - a.dateObj).forEach(b => {
-                    yearHtml += `
-                    <div class="bill-row">
-                        <div class="bill-top" style="margin-bottom: 6px;">
-                            <span style="font-size: 16px;"><b>${b.dateRange}</b></span>
-                            <span style="font-size: 16px; font-weight:bold;">$${b.cost}</span>
-                        </div>
-                        <div class="bill-top">
-                            <span style="color:#606770; font-size:12px;">Usage: ${b.usage} kWh</span>
-                            <span class="del-btn" onclick="deleteBill(${b.id})">Delete</span>
-                        </div>
-                    </div>`;
-                });
-                yearHtml += `</div>`;
-                display.innerHTML += yearHtml;
-            });
-        }
+            bDiv.innerHTML += html + "</div>";
+        });
 
         // Render History
-        const history = JSON.parse(localStorage.getItem('estHistory') || "[]");
-        const hList = document.getElementById('historyList');
-        
-        if (history.length === 0) {
-            hList.innerHTML = "<p style='text-align:center; color:#8e8e93; font-size:12px;'>No entries added yet.</p>";
+        const hist = JSON.parse(localStorage.getItem('hist') || "[]");
+        const hDiv = document.getElementById('histList');
+        hDiv.innerHTML = hist.map(h => `
+            <div class="card card-row">
+                <div>
+                    <div style="font-size:14px; font-weight:600;">${fmtD(h.date)}</div>
+                    <div class="card-sub">$${h.val} estimate</div>
+                </div>
+                <span class="del-text" onclick="delItem('hist', ${h.id})">Delete</span>
+            </div>
+        `).join('') || "<p style='text-align:center; color:#8e8e93; font-size:12px;'>No entries yet</p>";
+
+        // Update Top Hero
+        if(hist.length > 0) {
+            document.getElementById('estVal').innerText = "$" + hist[0].val;
+            document.getElementById('estLabel').innerText = `Estimate for Current Billing Cycle as of ${fmtD(hist[0].date)}`;
+        } else {
             document.getElementById('estVal').innerText = "$0.00";
             document.getElementById('estLabel').innerText = "Estimate for Current Billing Cycle as of --";
-        } else {
-            hList.innerHTML = history.map(h => `
-                <div class="history-item">
-                    <span style="color:#606770;">${formatDisplayDate(h.date)}</span>
-                    <strong style="color:#007AFF; font-size:15px;">$${h.price}</strong>
-                    <span class="del-btn" onclick="deleteHistory(${h.id})">Delete</span>
-                </div>
-            `).join('');
-
-            // Update Top UI
-            document.getElementById('estVal').innerText = "$" + history[0].price;
-            document.getElementById('estLabel').innerText = `Estimate for Current Billing Cycle as of ${formatDisplayDate(history[0].date)}`;
         }
     }
 
-    function deleteBill(id) {
-        if (confirm("Delete this statement?")) {
-            let bills = JSON.parse(localStorage.getItem('actualBills') || "[]").filter(b => b.id !== id);
-            localStorage.setItem('actualBills', JSON.stringify(bills));
-            renderAll();
+    function delItem(key, id) {
+        if(confirm("Delete this?")) {
+            const items = JSON.parse(localStorage.getItem(key)).filter(i => i.id !== id);
+            localStorage.setItem(key, JSON.stringify(items));
+            render();
         }
     }
 
-    function deleteHistory(id) {
-        if (confirm("Delete this estimate entry?")) {
-            let history = JSON.parse(localStorage.getItem('estHistory') || "[]").filter(h => h.id !== id);
-            localStorage.setItem('estHistory', JSON.stringify(history));
-            renderAll();
-        }
-    }
-
-    function clearAll() { 
-        if (confirm("Clear ALL app data? This cannot be undone.")) { 
-            localStorage.clear(); 
-            location.reload(); 
-        } 
-    }
+    function clearAll() { if(confirm("Wipe everything?")) { localStorage.clear(); location.reload(); } }
 </script>
 </body>
 </html>
