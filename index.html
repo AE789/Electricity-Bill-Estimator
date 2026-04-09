@@ -5,68 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Electricity Tracker</title>
     
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
-    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Elec Tracker">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23007AFF%22/><text y=%2250%22 x=%2250%22 font-size=%2270%22 dominant-baseline=%22central%22 text-anchor=%22middle%22>⚡</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%23007AFF%22/><text y=%2250%22 x=%2250%22 font-size=%2270%22 dominant-baseline=%22central%22 text-anchor=%22middle%22>⚡</text></svg>">
     
     <style>
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; padding: 15px 0; margin: 0; }
         .container { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); width: 92%; max-width: 420px; box-sizing: border-box; }
         h2 { text-align: center; color: #1c1e21; font-size: 20px; margin: 0 0 20px 0; }
         
-        .section-box { background: #f8f9fa; padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #e9ecef; box-sizing: border-box; }
+        /* Top Estimate Display */
+        .top-estimate { text-align: center; background: #e7f3ff; padding: 25px 15px; border-radius: 15px; margin-bottom: 20px; border: 1px solid #cce5ff; }
+        .est-label { color: #0056b3; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; }
+        .est-val { font-size: 38px; font-weight: 800; color: #007AFF; display: block; margin-top: 5px; }
+
         label { display: block; margin-bottom: 4px; color: #606770; font-size: 10px; font-weight: 700; text-transform: uppercase; }
         
-        /* Fixed Mobile Date Input Formatting */
-        input, select { 
-            width: 100%; 
-            height: 44px; /* Standard mobile tap height */
-            padding: 10px; 
-            border: 1px solid #dddfe2; 
-            border-radius: 8px; 
-            box-sizing: border-box; 
-            font-size: 15px; 
-            margin-bottom: 10px; 
-            font-family: inherit; 
-            background: #fff;
-            -webkit-appearance: none; /* Removes iOS internal styling shadows */
+        input { 
+            width: 100%; height: 44px; padding: 10px; border: 1px solid #dddfe2; border-radius: 8px; 
+            box-sizing: border-box; font-size: 15px; margin-bottom: 12px; font-family: inherit; background: #fff;
+            -webkit-appearance: none;
         }
         
-        .flex-row { display: flex; gap: 8px; width: 100%; margin-bottom: 5px; }
+        .flex-row { display: flex; gap: 8px; width: 100%; }
         .flex-col { flex: 1; min-width: 0; }
         
-        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; transition: opacity 0.2s; box-sizing: border-box; }
+        .btn { width: 100%; padding: 14px; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; box-sizing: border-box; margin-bottom: 10px; }
         .btn-blue { background: #007AFF; color: white; }
-        .btn-green { background: #34c759; color: white; margin-top: 5px; }
-        .btn-outline { background: none; border: 1px solid #007AFF; color: #007AFF; margin-top: 10px; padding: 10px; font-size: 14px; }
-        .btn-statement { border-color: #34c759; color: #166534; }
+        .btn-green { background: #34c759; color: white; }
+        .btn-gray { background: #e9ecef; color: #495057; }
+        .btn-outline { background: none; border: 1px solid #dddfe2; color: #1c1e21; padding: 12px; font-size: 14px; display: flex; justify-content: space-between; align-items: center; }
         
-        .bill-year-group { margin-top: 15px; }
+        .bill-year-group { margin-top: 10px; }
         .year-header { font-size: 16px; font-weight: 800; color: #1c1e21; border-bottom: 2px solid #007AFF; padding-bottom: 4px; margin-bottom: 10px; }
-        .bill-row { display: flex; flex-direction: column; padding: 10px; border-bottom: 1px solid #f0f2f5; font-size: 14px; background: #fff; border-radius: 8px; margin-bottom: 8px; border: 1px solid #eee; }
-        .bill-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
-        .bill-dates { font-size: 11px; color: #8e8e93; font-weight: 600; }
+        .bill-row { display: flex; flex-direction: column; padding: 12px; border-bottom: 1px solid #f0f2f5; font-size: 14px; background: #fff; border-radius: 8px; margin-bottom: 8px; border: 1px solid #eee; }
+        .bill-top { display: flex; justify-content: space-between; align-items: center; }
         
-        .collapse-content { display: none; margin-top: 10px; }
-        .history-item { background: #fff; border: 1px solid #eee; padding: 10px; border-radius: 8px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
-        .del-btn { color: #ff3b30; cursor: pointer; font-weight: bold; padding: 5px 10px; background: #fff1f0; border-radius: 6px; }
+        .collapse-content { display: none; margin-bottom: 15px; padding: 10px; background: #f8f9fa; border-radius: 12px; border: 1px solid #eee; }
+        .history-item { background: #fff; border: 1px solid #eee; padding: 12px; border-radius: 8px; margin-bottom: 5px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+        .del-btn { color: #ff3b30; cursor: pointer; font-weight: bold; padding: 6px 12px; background: #fff1f0; border-radius: 6px; font-size: 12px; }
         
-        .summary-grid { display: flex; gap: 10px; margin-bottom: 15px; }
-        .res-box { flex: 1; min-width: 0; padding: 10px; background: #e7f3ff; border-radius: 10px; text-align: center; border: 1px solid #cce5ff; }
-        .res-box input { margin: 0; text-align: center; height: 38px; font-size: 13px; }
+        /* Modal Styles */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); z-index: 100; justify-content: center; align-items: center; backdrop-filter: blur(2px); }
+        .modal-content { background: white; padding: 20px; border-radius: 16px; width: 90%; max-width: 380px; box-shadow: 0 10px 40px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto; }
+        .modal-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; color: #1c1e21; text-align: center; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h2>Electricity Estimator & Tracker</h2>
+    <h2>Electricity Tracker</h2>
 
-    <div class="section-box">
-        <div class="summary-grid">
-            <div class="res-box">
+    <div class="top-estimate">
+        <div class="est-label" id="estLabel">Estimate for Current Billing Cycle as of --</div>
+        <span class="est-val" id="estVal">$0.00</span>
+    </div>
+
+    <button class="btn btn-blue" onclick="openModal('estimateModal')">Add New Entry</button>
+    <button class="btn btn-green" onclick="openModal('statementModal')">Add Monthly Statement</button>
+
+    <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+    <button class="btn btn-outline" onclick="toggleSection('statementsCollapse', this)">
+        <span>Monthly Statements</span> <span class="arrow">▼</span>
+    </button>
+    <div id="statementsCollapse" class="collapse-content">
+        <div id="billDisplay"></div>
+    </div>
+
+    <button class="btn btn-outline" onclick="toggleSection('historyCollapse', this)">
+        <span>Entry History</span> <span class="arrow">▼</span>
+    </button>
+    <div id="historyCollapse" class="collapse-content">
+        <div id="historyList"></div>
+        <button onclick="clearAll()" style="color:#ff3b30; font-size:12px; border:none; background:none; cursor:pointer; width:100%; margin-top:15px; padding:10px; font-weight:bold;">Clear All App Data</button>
+    </div>
+</div>
+
+<div id="estimateModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-title">New Meter Reading</div>
+        
+        <div class="flex-row">
+            <div class="flex-col">
                 <label>Prev Billing Reading</label>
                 <input type="number" id="lastRead">
             </div>
-            <div class="res-box">
+            <div class="flex-col">
                 <label>Last Statement Date</label>
                 <input type="date" id="lastDate">
             </div>
@@ -84,80 +112,46 @@
         </div>
 
         <button class="btn btn-blue" onclick="calculate()">Save Estimate</button>
-        <div style="text-align:center; margin-top:15px;">
-            <label>Most Recent Est. Bill</label>
-            <span id="estVal" style="font-size:26px; font-weight:800; color:#007AFF;">$0.00</span>
-        </div>
+        <button class="btn btn-gray" style="margin-bottom:0;" onclick="closeModal('estimateModal')">Cancel</button>
     </div>
+</div>
 
-    <button class="btn btn-outline btn-statement" onclick="toggleSection('statementInput')">Add Monthly Statement ▼</button>
-    <div id="statementInput" class="collapse-content">
-        <div class="section-box" style="background:#f0fff4; border-color:#dcfce7; margin-top:10px;">
-            
-            <div class="flex-row">
-                <div class="flex-col">
-                    <label>Month</label>
-                    <select id="billMonth">
-                        <option value="0">January</option><option value="1">February</option><option value="2">March</option>
-                        <option value="3">April</option><option value="4">May</option><option value="5">June</option>
-                        <option value="6">July</option><option value="7">August</option><option value="8">September</option>
-                        <option value="9">October</option><option value="10">November</option><option value="11">December</option>
-                    </select>
-                </div>
-                <div class="flex-col">
-                    <label>Year</label>
-                    <select id="billYear">
-                        <option value="2025">2025</option><option value="2026">2026</option>
-                        <option value="2027">2027</option><option value="2028">2028</option>
-                        <option value="2029">2029</option><option value="2030">2030</option>
-                        <option value="2031">2031</option><option value="2032">2032</option>
-                        <option value="2033">2033</option><option value="2034">2034</option>
-                        <option value="2035">2035</option>
-                    </select>
-                </div>
+<div id="statementModal" class="modal-overlay">
+    <div class="modal-content">
+        <div class="modal-title">Add Monthly Statement</div>
+
+        <div class="flex-row">
+            <div class="flex-col">
+                <label>Statement From</label>
+                <input type="date" id="billStartDate">
             </div>
-
-            <div class="flex-row">
-                <div class="flex-col">
-                    <label>From</label>
-                    <input type="date" id="billStartDate">
-                </div>
-                <div class="flex-col">
-                    <label>To</label>
-                    <input type="date" id="billEndDate">
-                </div>
+            <div class="flex-col">
+                <label>Statement To</label>
+                <input type="date" id="billEndDate">
             </div>
-
-            <div class="flex-row">
-                <div class="flex-col">
-                    <label>Cost ($)</label>
-                    <input type="number" id="billCost" placeholder="0.00">
-                </div>
-                <div class="flex-col">
-                    <label>Usage (kWh)</label>
-                    <input type="number" id="billUsage" placeholder="kWh">
-                </div>
-            </div>
-
-            <label>End Reading (Auto-Pulls to Estimator)</label>
-            <input type="number" id="billEndReading" placeholder="Reading on end date">
-
-            <button class="btn btn-green" onclick="saveActualBill()">Save Statement</button>
         </div>
-    </div>
 
-    <div id="billDisplay"></div>
+        <div class="flex-row">
+            <div class="flex-col">
+                <label>Billing Amount ($)</label>
+                <input type="number" id="billCost" placeholder="0.00">
+            </div>
+            <div class="flex-col">
+                <label>Total Usage (kWh)</label>
+                <input type="number" id="billUsage" placeholder="kWh">
+            </div>
+        </div>
 
-    <button class="btn btn-outline" onclick="toggleSection('historyCollapse')">View Entry History ▼</button>
-    <div id="historyCollapse" class="collapse-content">
-        <div id="historyList"></div>
-        <button onclick="clearAll()" style="color:red; font-size:12px; border:none; background:none; cursor:pointer; width:100%; margin-top:15px; padding:10px;">Clear All App Data</button>
+        <label>End Reading</label>
+        <input type="number" id="billEndReading" placeholder="Reading on end date">
+
+        <button class="btn btn-green" onclick="saveActualBill()">Save Statement</button>
+        <button class="btn btn-gray" style="margin-bottom:0;" onclick="closeModal('statementModal')">Cancel</button>
     </div>
 </div>
 
 <script>
     const monthsShort = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-    const monthsFull = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
     function setToday() {
         const today = new Date();
@@ -169,9 +163,6 @@
 
     window.onload = function() {
         setToday();
-        const today = new Date();
-        document.getElementById('billYear').value = today.getFullYear();
-        document.getElementById('billMonth').value = today.getMonth();
         
         if(localStorage.getItem('savedLastRead')) document.getElementById('lastRead').value = localStorage.getItem('savedLastRead');
         if(localStorage.getItem('savedLastDate')) document.getElementById('lastDate').value = localStorage.getItem('savedLastDate');
@@ -179,9 +170,25 @@
         renderAll();
     };
 
-    function toggleSection(id) {
+    function toggleSection(id, btnElement) {
         const el = document.getElementById(id);
-        el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+        const arrow = btnElement.querySelector('.arrow');
+        if (el.style.display === 'block') {
+            el.style.display = 'none';
+            arrow.innerHTML = '▼';
+        } else {
+            el.style.display = 'block';
+            arrow.innerHTML = '▲';
+        }
+    }
+
+    function openModal(id) {
+        setToday(); // Ensure dates are fresh when opening
+        document.getElementById(id).style.display = 'flex';
+    }
+
+    function closeModal(id) {
+        document.getElementById(id).style.display = 'none';
     }
 
     function formatDisplayDate(dateString) {
@@ -208,24 +215,25 @@
         localStorage.setItem('savedLastRead', lr);
         localStorage.setItem('savedLastDate', document.getElementById('lastDate').value);
         
+        closeModal('estimateModal');
         renderAll();
-        setToday(); 
     }
 
     function saveActualBill() {
         const cost = document.getElementById('billCost').value;
         const usage = document.getElementById('billUsage').value;
-        const month = document.getElementById('billMonth').value;
-        const year = document.getElementById('billYear').value;
         const startDate = document.getElementById('billStartDate').value;
         const endDate = document.getElementById('billEndDate').value;
         const endReading = document.getElementById('billEndReading').value;
 
         if(!cost || !usage || !startDate || !endDate) return alert("Fill statement details and dates.");
 
+        const endD = new Date(endDate + "T12:00:00");
+        const year = endD.getFullYear();
         const dateRangeStr = `${formatDisplayDate(startDate)} - ${formatDisplayDate(endDate)}`;
+        
         let bills = JSON.parse(localStorage.getItem('actualBills') || "[]");
-        bills.push({ id: Date.now(), month, year, cost, usage, dateRange: dateRangeStr });
+        bills.push({ id: Date.now(), year: year, dateObj: endD.getTime(), cost: cost, usage: usage, dateRange: dateRangeStr });
         localStorage.setItem('actualBills', JSON.stringify(bills));
         
         if (endReading && endDate) {
@@ -238,54 +246,67 @@
         document.getElementById('billCost').value = "";
         document.getElementById('billUsage').value = "";
         document.getElementById('billEndReading').value = "";
-        toggleSection('statementInput'); 
+        
+        closeModal('statementModal');
         renderAll();
     }
 
     function renderAll() {
+        // Render Actual Statements
         const bills = JSON.parse(localStorage.getItem('actualBills') || "[]");
         const display = document.getElementById('billDisplay');
         display.innerHTML = "";
 
-        const grouped = {};
-        bills.forEach(b => {
-            if(!grouped[b.year]) grouped[b.year] = [];
-            grouped[b.year].push(b);
-        });
-
-        Object.keys(grouped).sort((a,b) => b - a).forEach(year => {
-            let yearHtml = `<div class="bill-year-group"><div class="year-header">${year}</div>`;
-            grouped[year].sort((a,b) => b.month - a.month).forEach(b => {
-                yearHtml += `
-                <div class="bill-row">
-                    <div class="bill-top">
-                        <span style="font-size: 16px;"><b>${monthsFull[b.month]}</b></span>
-                        <span style="font-size: 16px; font-weight:bold;">$${b.cost} <span style="color:#606770; font-size:12px; font-weight:normal;">(${b.usage} kWh)</span></span>
-                    </div>
-                    <div class="bill-top" style="margin-bottom:0;">
-                        <span class="bill-dates">${b.dateRange || ""}</span>
-                        <span class="del-btn" onclick="deleteBill(${b.id})">×</span>
-                    </div>
-                </div>`;
+        if (bills.length === 0) {
+            display.innerHTML = "<p style='text-align:center; color:#8e8e93; font-size:12px;'>No statements added yet.</p>";
+        } else {
+            const grouped = {};
+            bills.forEach(b => {
+                if(!grouped[b.year]) grouped[b.year] = [];
+                grouped[b.year].push(b);
             });
-            yearHtml += `</div>`;
-            display.innerHTML += yearHtml;
-        });
 
+            Object.keys(grouped).sort((a,b) => b - a).forEach(year => {
+                let yearHtml = `<div class="bill-year-group"><div class="year-header">${year}</div>`;
+                // Sort by date descending within the year
+                grouped[year].sort((a,b) => b.dateObj - a.dateObj).forEach(b => {
+                    yearHtml += `
+                    <div class="bill-row">
+                        <div class="bill-top" style="margin-bottom: 6px;">
+                            <span style="font-size: 16px;"><b>${b.dateRange}</b></span>
+                            <span style="font-size: 16px; font-weight:bold;">$${b.cost}</span>
+                        </div>
+                        <div class="bill-top">
+                            <span style="color:#606770; font-size:12px;">Usage: ${b.usage} kWh</span>
+                            <span class="del-btn" onclick="deleteBill(${b.id})">Delete</span>
+                        </div>
+                    </div>`;
+                });
+                yearHtml += `</div>`;
+                display.innerHTML += yearHtml;
+            });
+        }
+
+        // Render History
         const history = JSON.parse(localStorage.getItem('estHistory') || "[]");
         const hList = document.getElementById('historyList');
-        hList.innerHTML = history.map(h => `
-            <div class="history-item">
-                <span style="color:#606770;">${formatDisplayDate(h.date)}</span>
-                <strong style="color:#007AFF; font-size:15px;">$${h.price}</strong>
-                <span class="del-btn" onclick="deleteHistory(${h.id})">×</span>
-            </div>
-        `).join('');
-
-        if (history.length > 0) {
-            document.getElementById('estVal').innerText = "$" + history[0].price;
-        } else {
+        
+        if (history.length === 0) {
+            hList.innerHTML = "<p style='text-align:center; color:#8e8e93; font-size:12px;'>No entries added yet.</p>";
             document.getElementById('estVal').innerText = "$0.00";
+            document.getElementById('estLabel').innerText = "Estimate for Current Billing Cycle as of --";
+        } else {
+            hList.innerHTML = history.map(h => `
+                <div class="history-item">
+                    <span style="color:#606770;">${formatDisplayDate(h.date)}</span>
+                    <strong style="color:#007AFF; font-size:15px;">$${h.price}</strong>
+                    <span class="del-btn" onclick="deleteHistory(${h.id})">Delete</span>
+                </div>
+            `).join('');
+
+            // Update Top UI
+            document.getElementById('estVal').innerText = "$" + history[0].price;
+            document.getElementById('estLabel').innerText = `Estimate for Current Billing Cycle as of ${formatDisplayDate(history[0].date)}`;
         }
     }
 
